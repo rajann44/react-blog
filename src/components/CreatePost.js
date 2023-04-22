@@ -49,6 +49,7 @@ const CreatePost = () => {
           onChange={handleInputChange}
         />
       </div>
+
       <div className="">
         <label className=""> Post Content </label>
         <div className="mt-1 sm:mt-0 sm:col-span-2">
