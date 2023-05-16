@@ -3,6 +3,7 @@ import { getPostsDetailsFromDb } from "../Firebase/GetPosts";
 
 const PostsList = () => {
   const [postDetails, setPostDetails] = useState([]);
+  const [visiblePostCount, setVisiblePostCount] = useState(3);
 
   useEffect(() => {
     async function getPostDetails() {
@@ -15,13 +16,19 @@ const PostsList = () => {
     getPostDetails();
   }, []);
 
+  const loadMorePosts = () => {
+    setVisiblePostCount((prevCount) => prevCount + 3);
+  };
+
+  const visiblePosts = postDetails.slice(0, visiblePostCount);
+
   return (
     <section class="w-screen py-5">
       <h1 class="mb-2 text-center font-sans text-5xl font-bold my-14">
         Our Blog
       </h1>
       <div class="mx-auto grid max-w-screen-lg grid-cols-1 gap-5 p-5 sm:grid-cols-2 md:grid-cols-3 lg:gap-10">
-        {postDetails.map((post, index) => (
+        {visiblePosts.map((post, index) => (
           <article
             class="group h-full overflow-hidden rounded-lg border-2 border-gray-200 border-opacity-60 shadow-lg"
             key={index}
@@ -76,6 +83,31 @@ const PostsList = () => {
           </article>
         ))}
       </div>
+      {visiblePostCount < postDetails.length && (
+        <div class="m-8 text-center sm:mt-12 ">
+          <button
+            type="button"
+            class="focus:shadow inline-flex cursor-pointer items-center justify-center rounded text-xs font-bold uppercase tracking-widest text-gray-500 transition-all duration-200 ease-in-out hover:text-gray-900"
+          >
+            <svg
+              class="mr-3 block h-4 w-4 align-middle uppercase tracking-wider"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"
+                class="uppercase"
+              ></path>
+            </svg>
+            <button onClick={loadMorePosts}>Load More Articles</button>
+          </button>
+        </div>
+      )}
     </section>
   );
 };
