@@ -1,5 +1,5 @@
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
-import { addDoc } from "firebase/firestore";
+import { addDoc, serverTimestamp } from "firebase/firestore";
 import { postReference, storage } from "./FireApp";
 
 export const createNewPost = async (postData) => {
@@ -13,6 +13,7 @@ export const createNewPost = async (postData) => {
       title: postData.title,
       content: postData.content,
       imgURL: downloadUrl,
+      published_at: serverTimestamp(),
     });
     // Log a success message to the console
     console.log("Post added successfully!");

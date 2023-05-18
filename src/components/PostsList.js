@@ -51,7 +51,9 @@ const PostsList = () => {
             </div>
             <div class="flex flex-wrap items-center justify-between px-6 pt-1 pb-4">
               <div class="flex flex-wrap text-sm text-gray-500">
-                <span class="mr-1">Oct 30, 2022</span>
+                <span class="mr-1">
+                  {post.published_at.toDate().toDateString()}
+                </span>
                 <span class="">· 9 min read</span>
               </div>
               <div class="mt-1">

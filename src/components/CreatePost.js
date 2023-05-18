@@ -1,7 +1,10 @@
 import React, { useState } from "react";
 import { createNewPost } from "../Firebase/CreatePostDB";
+import { useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
 
 const CreatePost = () => {
+  const navigate = useNavigate();
   const [previewUrl, setPreviewUrl] = useState(null);
   const [formData, setFormData] = useState({
     title: "",
@@ -32,33 +35,45 @@ const CreatePost = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     createNewPost(formData);
+    Swal.fire({
+      icon: "success",
+      title: "Article Published!",
+      confirmButtonText: "OK",
+    }).then((result) => {
+      /* Read more about isConfirmed, isDenied below */
+      if (result.isConfirmed) {
+        navigate("/");
+      } else {
+        navigate("/");
+      }
+    });
   };
 
   return (
-    <form className="relative space-y-3 rounded-md bg-white p-6 shadow-xl lg:p-10 border border-gray-100 m-10">
+    <form className="relative space-y-3 rounded-md bg-white p-6 shadow-xl border border-gray-100 md:m-20 my-20">
       <h1 className="text-xl font-semibold lg:text-2xl">Add new Post</h1>
       <p className="pb-4 text-gray-500">Create a new post using below fields</p>
 
-      <div>
+      <div className="flex flex-col">
         <label className=""> Post Title </label>
         <input
           name="title"
           type="text"
           placeholder="Title"
-          className="mt-2 h-12 w-full rounded-md bg-gray-100 px-3 outline-none focus:ring"
+          className="mt-2 h-12 lg:w-1/2 rounded-md bg-gray-100 px-3   focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm border border-gray-300"
           onChange={handleInputChange}
         />
       </div>
 
       <div className="">
         <label className=""> Post Content </label>
-        <div className="mt-1 sm:mt-0 sm:col-span-2">
+        <div className="w-full mt-1 sm:mt-0 sm:col-span-2">
           <textarea
             id="about"
             name="content"
             rows={8}
-            className="max-w-lg shadow-sm block w-full focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm border border-gray-300 rounded-md"
-            defaultValue={""}
+            className="block w-full bg-gray-100  focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm border border-gray-300 rounded-md"
+            placeholder="Your Article content here"
             onChange={handleInputChange}
           />
         </div>
