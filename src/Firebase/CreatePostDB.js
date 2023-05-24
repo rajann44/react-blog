@@ -9,6 +9,7 @@ export const createNewPost = async (postData) => {
     await uploadBytes(fileRef, postData.filePath);
     const downloadUrl = await getDownloadURL(fileRef);
     // Create a new document in the "posts" collection with the form data and file URL
+    // Just checking
     await addDoc(postReference, {
       title: postData.title,
       content: postData.content,
